@@ -36,6 +36,7 @@ jobs:
   dev:
     needs: sonar
     runs-on: ubuntu-latest
+    environment: dev
     name: dev
     steps:
        - name: dev step
@@ -44,6 +45,7 @@ jobs:
   stg:
     needs: [sonar, dev]
     runs-on: ubuntu-latest
+    environment: stg
     name: stg
     steps:
        - name: stg step
@@ -52,6 +54,7 @@ jobs:
   ppd:
     needs: [sonar, stg]
     runs-on: ubuntu-latest
+    environment: ppd
     name: ppd
     steps:
        - name: ppd step
@@ -60,6 +63,7 @@ jobs:
   prd:
     needs: [sonar, ppd]
     runs-on: ubuntu-latest
+    environment: prd
     name: prd
     steps:
       - name: prd step

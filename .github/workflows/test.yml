@@ -30,32 +30,37 @@ jobs:
     runs-on: ubuntu-latest
     name: sonar
     steps:
-      run: echo "the variable is ${{ inputs.myString }}
+      - name: sonar step
+        run: echo "the variable is ${{ inputs.myString }}
 
   dev:
     needs: sonar
     runs-on: ubuntu-latest
     name: dev
     steps:
-      run: echo "[dev]hello world"
+       - name: dev step
+         run: echo "[dev]hello world"
 
   stg:
     needs: [sonar, dev]
     runs-on: ubuntu-latest
     name: stg
     steps:
-      run: echo "[stg]hello world"
+       - name: stg step
+         run: echo "[stg]hello world"
 
   ppd:
     needs: [sonar, stg]
     runs-on: ubuntu-latest
     name: ppd
     steps:
-      run: echo "[ppd]hello world"
+       - name: ppd step
+         run: echo "[ppd]hello world"
 
   prd:
     needs: [sonar, ppd]
     runs-on: ubuntu-latest
     name: prd
     steps:
-      run: echo "[prd]hello world"
+      - name: prd step
+        run: echo "[prd]hello world"

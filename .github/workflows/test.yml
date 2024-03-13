@@ -1,0 +1,61 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: 
+          - int
+          - stg
+          - ppd
+          - prd
+
+env:
+  myString: value
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+    name: sonar
+    steps:
+      run: echo "the variable is ${{ inputs.myString }}
+
+  dev:
+    needs: sonar
+    runs-on: ubuntu-latest
+    name: dev
+    steps:
+      run: echo "[dev]hello world"
+
+  stg:
+    needs: [sonar, dev]
+    runs-on: ubuntu-latest
+    name: stg
+    steps:
+      run: echo "[stg]hello world"
+
+  ppd:
+    needs: [sonar, stg]
+    runs-on: ubuntu-latest
+    name: ppd
+    steps:
+      run: echo "[ppd]hello world"
+
+  prd:
+    needs: [sonar, ppd]
+    runs-on: ubuntu-latest
+    name: prd
+    steps:
+      run: echo "[prd]hello world"

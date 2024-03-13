@@ -31,7 +31,7 @@ jobs:
     name: sonar
     steps:
       - name: sonar step
-        run: echo "the variable is ${{ inputs.myString }}
+        run: echo "the variable is ${{ inputs.myString }}"
 
   dev:
     needs: sonar

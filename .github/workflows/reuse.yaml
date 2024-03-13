@@ -1,0 +1,11 @@
+name: reusable workflow
+
+on:
+  workflow_call:
+
+jobs:
+  testjob:
+    name: testjob
+    runs-on: ubuntu-latest
+    steps:
+      - name: ${{  }}

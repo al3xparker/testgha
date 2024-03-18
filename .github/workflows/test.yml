@@ -27,6 +27,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   sonar:
+    if: github.event_name == 'push' && github.ref_name == 'develop' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     name: sonar
     steps:
@@ -34,6 +35,7 @@ jobs:
         run: echo "the variable is ${{ env.myString }}"
 
   dev:
+    if: github.event_name == 'push' && github.ref_name == 'develop' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop' )
     needs: sonar
     runs-on: ubuntu-latest
     environment: dev
@@ -43,6 +45,7 @@ jobs:
          run: echo "[dev]hello world"
 
   stg:
+    if: github.event_name == 'push' && github.ref_name == 'develop' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop' )
     needs: [sonar, dev]
     runs-on: ubuntu-latest
     environment: stg
@@ -52,6 +55,7 @@ jobs:
          run: echo "[stg]hello world"
 
   ppd:
+    if: (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' )
     needs: [sonar, stg]
     runs-on: ubuntu-latest
     environment: ppd
@@ -61,6 +65,7 @@ jobs:
          run: echo "[ppd]hello world"
 
   prd:
+    if: (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' )
     needs: [sonar, ppd]
     runs-on: ubuntu-latest
     environment: prd

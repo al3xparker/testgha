@@ -10,6 +10,8 @@ on:
   pull_request:
     branches: [ "main" ]
     types: [opened, reopened]
+  pull_request_review:
+    types: [submitted]
     
 
   # Allows you to run this workflow manually from the Actions tab
@@ -46,6 +48,7 @@ jobs:
 
   stg:
     needs: [sonar, dev]
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     environment: stg
     name: stg
@@ -55,6 +58,7 @@ jobs:
 
   ppd:
     needs: [sonar, stg]
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     environment: ppd
     name: ppd
@@ -64,6 +68,7 @@ jobs:
 
   prd:
     needs: [sonar, ppd]
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     environment: prd
     name: prd
